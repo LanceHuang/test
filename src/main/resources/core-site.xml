@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <property>
+        <name>fs.default.name</name>
+        <value>hdfs://192.168.147.128:9000</value>
+    </property>
+
+    <!--<property>-->
+        <!--<name>mapred.jar</name>-->
+        <!--<value>D:\\EE\\common\\common-test\\out\\artifacts\\hadoop\\hadoop.jar</value>-->
+    <!--</property>-->
+</configuration>

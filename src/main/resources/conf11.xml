@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <property>
+        <name>name</name>
+        <value>lance</value>
+        <final>true</final>
+    </property>
+
+    <property>
+        <name>pwd</name>
+        <value>123</value>
+    </property>
+</configuration>
