@@ -1,6 +1,6 @@
 package com.lance.test.common.sun;
 
-import com.lance.common.entity.Article;
+import com.lance.test.common.entity.Article;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

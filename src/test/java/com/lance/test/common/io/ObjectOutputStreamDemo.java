@@ -5,7 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
-import com.lance.common.entity.Article;
+import com.lance.test.common.entity.Article;
 
 public class ObjectOutputStreamDemo {
 

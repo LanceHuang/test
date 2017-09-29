@@ -1,6 +1,6 @@
 package com.lance.test.hadoop;
 
-import com.lance.common.entity.TokenizerMapper;
+import com.lance.test.common.entity.TokenizerMapper;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.junit.Test;

@@ -1,6 +1,7 @@
 package com.lance.test.common.supercsv;
 
-import com.lance.common.entity.Article;
+
+import com.lance.test.common.entity.Article;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

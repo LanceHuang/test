@@ -1,6 +1,6 @@
 package com.lance.test.common.lang;
 
-import com.lance.common.entity.Article;
+import com.lance.test.common.entity.Article;
 import org.junit.Test;
 
 import java.io.IOException;

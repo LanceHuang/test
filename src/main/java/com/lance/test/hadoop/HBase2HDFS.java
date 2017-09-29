@@ -1,7 +1,8 @@
 package com.lance.test.hadoop;
 
-import com.lance.common.entity.SimpleMapper;
-import com.lance.common.entity.TokenizerMapper;
+
+import com.lance.test.common.entity.SimpleMapper;
+import com.lance.test.common.entity.TokenizerMapper;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hbase.client.Scan;

@@ -1,6 +1,7 @@
 package com.lance.test.hadoop;
 
-import com.lance.common.util.FileUtils;
+
+import com.lance.common.tool.util.FileUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.*;

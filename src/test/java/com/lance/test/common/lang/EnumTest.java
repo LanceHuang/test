@@ -1,8 +1,8 @@
 package com.lance.test.common.lang;
 
+import com.lance.test.common.entity.Color;
 import org.junit.Test;
 
-import com.lance.common.entity.Color;
 
 public class EnumTest {
 

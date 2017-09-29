@@ -13,7 +13,7 @@ public class AnnotationTest {
 
     @Test
     public void test() {
-        Class<Sub> clazz = Sub.class;
+        Class<B> clazz = B.class;
 
         System.out.println(Arrays.toString(clazz.getAnnotations()));
         System.out.println(Arrays.toString(clazz.getDeclaredAnnotations()));
@@ -27,7 +27,7 @@ public class AnnotationTest {
 }
 
 @Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
+@Retention(RetentionPolicy.SOURCE)
 @interface B {
 }
 

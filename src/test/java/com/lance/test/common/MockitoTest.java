@@ -1,6 +1,7 @@
 package com.lance.test.common;
 
-import com.lance.common.util.Assert;
+
+import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 

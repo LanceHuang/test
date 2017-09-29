@@ -2,7 +2,7 @@ package com.lance.test.common.reflect;
 
 import java.lang.reflect.Field;
 
-import com.lance.common.entity.Article;
+import com.lance.test.common.entity.Article;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
