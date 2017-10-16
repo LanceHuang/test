@@ -1,8 +1,6 @@
 package com.lance.test.hadoop;
 
-import com.lance.test.common.entity.TokenizerMapper;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.mapreduce.Mapper;
 import org.junit.Test;
 
 /**
@@ -28,10 +26,10 @@ public class ConfigurationTest {
         System.out.println(conf.size());
     }
 
-    @Test
-    public void testSetClass() {
-        Configuration conf = new Configuration(false);
-        conf.setClass("mapper", TokenizerMapper.class, Mapper.class);
-        System.out.println(conf.getClass("mapper", null));
-    }
+//    @Test
+//    public void testSetClass() {
+//        Configuration conf = new Configuration(false);
+//        conf.setClass("mapper", TokenizerMapper.class, Mapper.class);
+//        System.out.println(conf.getClass("mapper", null));
+//    }
 }

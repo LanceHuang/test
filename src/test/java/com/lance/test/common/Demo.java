@@ -1,7 +1,10 @@
 package com.lance.test.common;
 
+import java.util.HashMap;
+
 public class Demo {
     public static void main(String[] args) {
-        System.out.println(Demo.class.getSimpleName());
+        HashMap map = new HashMap();
+        map.put("", "");
     }
 }

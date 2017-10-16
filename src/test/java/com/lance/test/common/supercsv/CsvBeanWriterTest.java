@@ -1,10 +1,8 @@
 package com.lance.test.common.supercsv;
 
 
-import com.lance.test.common.entity.Article;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
@@ -55,16 +53,16 @@ public class CsvBeanWriterTest {
         }
     }
 
-    @Test
-    public void testWrite() {
-        try {
-            Article article = new Article();
-            article.setTitle("Java权威指南");
-            article.setContent("Hello world");
-            csvWriter.write(article, "title", "content");
-        } catch (IOException e) {
-            logger.info(e.getMessage());
-            e.printStackTrace();
-        }
-    }
+//    @Test
+//    public void testWrite() {
+//        try {
+//            Article article = new Article();
+//            article.setTitle("Java权威指南");
+//            article.setContent("Hello world");
+//            csvWriter.write(article, "title", "content");
+//        } catch (IOException e) {
+//            logger.info(e.getMessage());
+//            e.printStackTrace();
+//        }
+//    }
 }

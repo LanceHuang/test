@@ -1,9 +1,1 @@
-This project is created for testing JavaSE and some jar.
-
-It include:
-* JavaSE
-* apache common
-* aspectj
-* elasticsearch
-
-and so on.
+This project is used for testing some interesting idea. LOL. In very recent, I will delete some boring code. Have fun!!!
