@@ -3,13 +3,13 @@
     <parent>
         <artifactId>common</artifactId>
         <groupId>com.lance.common</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.1</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.lance.test</groupId>
     <artifactId>test</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -35,13 +35,13 @@
         <dependency>
             <groupId>com.lance.common</groupId>
             <artifactId>common-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0.1</version>
         </dependency>
 
         <dependency>
             <groupId>com.lance.common</groupId>
             <artifactId>common-tool</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0.1</version>
         </dependency>
 
         <dependency>
@@ -95,6 +95,39 @@
                 <exclusion>
                     <groupId>ch.qos.logback</groupId>
                     <artifactId>logback-core</artifactId>
+                </exclusion>
+
+                <exclusion>
+                    <groupId>org.apache.storm</groupId>
+                    <artifactId>storm-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.codehaus.jackson</groupId>
+                    <artifactId>jackson-mapper-asl</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.hadoop</groupId>
+                    <artifactId>hadoop-tools</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.spark</groupId>
+                    <artifactId>spark-core_2.10</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.spark</groupId>
+                    <artifactId>spark-sql_2.10</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>cascading</groupId>
+                    <artifactId>cascading-hadoop</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.hive</groupId>
+                    <artifactId>hive-service</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>cascading</groupId>
+                    <artifactId>cascading-local</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -168,13 +201,6 @@
             <artifactId>javax.servlet-api</artifactId>
             <version>3.0.1</version>
             <scope>provided</scope>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/us.codecraft/webmagic-core -->
-        <dependency>
-            <groupId>us.codecraft</groupId>
-            <artifactId>webmagic-core</artifactId>
-            <version>${webmagic.version}</version>
         </dependency>
 
         <dependency>
