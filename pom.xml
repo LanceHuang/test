@@ -20,16 +20,11 @@
 
         <!-- tools -->
         <lombok.version>1.16.18</lombok.version>
-        <joda.version>2.1</joda.version>
         <elasticsearch.version>2.4.4</elasticsearch.version>
-        <super-csv.version>2.3.1</super-csv.version>
-        <quartz.version>2.2.1</quartz.version>
 
         <hadoop.version>2.7.3</hadoop.version>
         <hbase.version>1.2.4</hbase.version>
         <spark.version>1.6.1</spark.version>
-
-        <webmagic.version>0.6.1</webmagic.version>
     </properties>
 
     <dependencies>
@@ -45,13 +40,12 @@
             <version>1.0.1</version>
         </dependency>
 
+        <!-- test -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-
-        <!-- mock测试 -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
@@ -78,19 +72,12 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <version>${joda.version}</version>
-        </dependency>
-
-        <!-- es操作 -->
+        <!-- elasticsearch -->
         <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
             <version>${elasticsearch.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch-hadoop</artifactId>
@@ -138,20 +125,6 @@
                     <artifactId>cascading-local</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-
-        <!-- csv操作 -->
-        <dependency>
-            <groupId>net.sf.supercsv</groupId>
-            <artifactId>super-csv</artifactId>
-            <version>${super-csv.version}</version>
-        </dependency>
-
-        <!-- 定时任务 -->
-        <dependency>
-            <groupId>org.quartz-scheduler</groupId>
-            <artifactId>quartz</artifactId>
-            <version>${quartz.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-client -->
@@ -211,12 +184,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>us.codecraft</groupId>
-            <artifactId>webmagic-extension</artifactId>
-            <version>${webmagic.version}</version>
-        </dependency>
-
         <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
@@ -229,6 +196,13 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-exec</artifactId>
             <version>1.3</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.mchange/c3p0 -->
+        <dependency>
+            <groupId>com.mchange</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.5.2</version>
         </dependency>
 
     </dependencies>
