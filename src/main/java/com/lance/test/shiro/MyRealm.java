@@ -5,9 +5,12 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
+
+import java.util.Collections;
 
 /**
  * @author Lance
@@ -15,31 +18,19 @@ import org.apache.shiro.subject.SimplePrincipalCollection;
  */
 public class MyRealm extends AuthorizingRealm {
 
-    private String testData;
-
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        System.out.println(principals);
-        return null;
+        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+        authorizationInfo.setRoles(Collections.<String>emptySet());
+        authorizationInfo.setStringPermissions(Collections.<String>emptySet());
+        return authorizationInfo;
     }
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        System.out.println("testData: " + testData);
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo();
-
-        SimplePrincipalCollection collection = new SimplePrincipalCollection();
-        authenticationInfo.setCredentials(token.getCredentials());
-
         System.out.println(token);
-        return authenticationInfo;
+        return new SimpleAuthenticationInfo(
+                "root", "112", "testRealm");
     }
 
-    public String getTestData() {
-        return testData;
-    }
-
-    public void setTestData(String testData) {
-        this.testData = testData;
-    }
 }
