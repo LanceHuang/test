@@ -1,4 +1,4 @@
-package com.lance.test.common.elasticsearch;
+package com.lance.test.elasticsearch;
 
 import com.google.gson.Gson;
 import org.elasticsearch.action.delete.DeleteResponse;
