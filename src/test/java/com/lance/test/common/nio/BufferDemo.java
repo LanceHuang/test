@@ -35,8 +35,9 @@ public class BufferDemo {
         sop(buffer);
 
         buffer.flip();// 使得limit=position，以便测试index>=limit
-        buffer.put(30, (byte) 78);// 报错
+        buffer.put((byte) 78);
         sop(buffer);
+        buffer.put(30, (byte) 78);// 报错
     }
 
     @Test
@@ -98,26 +99,36 @@ public class BufferDemo {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
 
         buffer.put(msgByte);
-        sop(buffer);
+        sop(buffer);//Position=9, Limit=1024, Capacity=1024
 
         FileOutputStream outputStream = null;
         FileChannel fc = null;
         try {
             // 输出缓冲区内容到文件
-            outputStream = new FileOutputStream("D:\\note\\test\\NIO笔记.txt");
+            outputStream = new FileOutputStream("f:\\test\\NIO.txt");
             fc = outputStream.getChannel();
+
+            buffer.flip();
+//            buffer.clear();//输出包括“Hello NIO”在内的内容
+            sop(buffer);//Position=0, Limit=9, Capacity=1024
+
             fc.write(buffer);
-            sop(buffer);
+            sop(buffer);//Position=9, Limit=9, Capacity=1024
         } catch (IOException e) {
-            System.out.println("缓冲区读取失败");
+            e.printStackTrace();
+            System.err.println("缓冲区读取失败");
         } finally {
             try {
-                fc.close();
+                if (null != fc) {
+                    fc.close();
+                }
             } catch (IOException e) {
                 System.err.println("关闭通道时发生错误");
             }
             try {
-                outputStream.close();
+                if (null != outputStream) {
+                    outputStream.close();
+                }
             } catch (IOException e) {
                 System.err.println("初始化输出流错误");
             }
@@ -126,24 +137,21 @@ public class BufferDemo {
 
     @Test
     public void testChannelRead() {
-        // 创建缓冲区
+        // Create buffer area
         ByteBuffer buffer = ByteBuffer.allocate(1024);
 
         FileInputStream inputStream = null;
         FileChannel channel = null;
         try {
-            // 创建文件流
-            inputStream = new FileInputStream("D:\\note\\test\\NIO笔记.txt");
-
-            // 创建通道
+            inputStream = new FileInputStream("f:\\test\\NIO.txt");
             channel = inputStream.getChannel();
 
-            // 将文件数据读入缓冲区
+            // Read data from channel
             int num = channel.read(buffer);
             System.out.println("已读数据：" + num);
 
             // 输出缓冲区数据
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i < num; i++) {
                 System.out.println(buffer.get(i) + "-" + (char) buffer.get(i));
             }
         } catch (FileNotFoundException e) {
@@ -189,7 +197,7 @@ public class BufferDemo {
     /**
      * 输出position-limit-capacity
      */
-    public static void sop(Buffer buffer) {
+    private void sop(Buffer buffer) {
         System.out.println("Position=" + buffer.position() + ", Limit="
                 + buffer.limit() + ", Capacity=" + buffer.capacity());
         System.out.println();
