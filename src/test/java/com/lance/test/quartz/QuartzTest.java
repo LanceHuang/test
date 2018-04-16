@@ -11,32 +11,20 @@ import org.quartz.impl.StdSchedulerFactory;
 public class QuartzTest {
 
     @Test
-    public void test() {
-        try {
-            JobDetail job = JobBuilder.newJob(HelloJob.class)
-                    .withIdentity("name1", "group1")
-                    .build();
-            Trigger trigger = TriggerBuilder.newTrigger()
-                    .withIdentity("tigger1", "group1")
-                    .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-                    .withIntervalInSeconds(1)
-                    .repeatForever())
-                    .build();
+    public void test() throws Exception {
+        JobDetail job = JobBuilder.newJob(HelloJob.class)
+                .withIdentity("name1", "group1")
+                .build();
+        Trigger trigger = TriggerBuilder.newTrigger()
+                .withIdentity("tigger1", "group1")
+                .withSchedule(SimpleScheduleBuilder.repeatSecondlyForever())
+                .build();
 
-            Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
-            scheduler.scheduleJob(job, trigger);
-
-            scheduler.start();
-            System.out.println("Started");
-
-
-
-//            scheduler.shutdown();
-//            System.out.println("Finished");
-        } catch (SchedulerException e) {
-            e.printStackTrace();
-        }
-
+        Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
+        scheduler.scheduleJob(job, trigger);
+        scheduler.start();
+        Thread.sleep(10000);
+        scheduler.shutdown();
     }
 }
 
