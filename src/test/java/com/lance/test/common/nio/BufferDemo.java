@@ -1,5 +1,6 @@
 package com.lance.test.common.nio;
 
+import io.netty.buffer.Unpooled;
 import org.junit.Test;
 
 import java.io.FileInputStream;
@@ -200,6 +201,18 @@ public class BufferDemo {
     private void sop(Buffer buffer) {
         System.out.println("Position=" + buffer.position() + ", Limit="
                 + buffer.limit() + ", Capacity=" + buffer.capacity());
+        System.out.println();
+    }
+
+    @Test
+    public void test() {
+        String message = "Hello NIO";
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        buffer.put(message.getBytes());
+        System.out.println(buffer);
+
+
+        Unpooled.copiedBuffer(message.getBytes());
         System.out.println();
     }
 }
