@@ -1,6 +1,5 @@
 package com.lance.test.ehcache;
 
-import net.sf.ehcache.CacheManager;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
