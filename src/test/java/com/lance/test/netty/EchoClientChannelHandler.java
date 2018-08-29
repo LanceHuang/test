@@ -15,7 +15,7 @@ public class EchoClientChannelHandler extends SimpleChannelInboundHandler<ByteBu
         //It must flush the data
 //        ctx.writeAndFlush("Hi, are you ok?");
         ctx.writeAndFlush(Unpooled.copiedBuffer("Hello NEtty", CharsetUtil.UTF_8));
-        ctx.writeAndFlush(Unpooled.copiedBuffer("Hi, are you ok?".getBytes()));
+//        ctx.writeAndFlush(Unpooled.copiedBuffer("Hi, are you ok?".getBytes()));
     }
 
     @Override

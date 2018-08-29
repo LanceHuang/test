@@ -6,7 +6,6 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 
@@ -19,12 +18,12 @@ public class EchoServer {
     }
 
     public void run() throws Exception {
-//        EventLoopGroup bossGroup = new NioEventLoopGroup();
+        EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
             System.out.println("Ready");
             ServerBootstrap b = new ServerBootstrap();
-            b.group(workerGroup)//Listen to connect, read, write
+            b.group(bossGroup, workerGroup)//Listen to connect, read, write
                     .channel(NioServerSocketChannel.class) //Channel type
                     .localAddress(port) //Listen localhost's port
                     .childHandler(new ChannelInitializer<Channel>() { // Like DispatcherServlet
@@ -49,6 +48,6 @@ public class EchoServer {
 
     public static void main(String[] args) throws Exception {
         //Simplify for test
-        new EchoServer(8890).run();
+        new EchoServer(8899).run();
     }
 }

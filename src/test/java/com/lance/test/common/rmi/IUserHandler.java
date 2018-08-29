@@ -1,9 +1,10 @@
 package com.lance.test.common.rmi;
 
+import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface IUserHandler extends Remote {
+public interface IUserHandler extends Remote, Serializable {
 
     User getUserById(int id) throws RemoteException;
 
