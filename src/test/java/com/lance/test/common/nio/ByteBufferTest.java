@@ -11,7 +11,7 @@ import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
-public class BufferDemo {
+public class ByteBufferTest {
 
     @Test
     public void testPut() {
@@ -92,6 +92,26 @@ public class BufferDemo {
         buffer.flip();
         sop(buffer);
     }
+
+    @Test
+    public void testCompact() {
+        String message = "Hello NIO";
+        byte[] msgByte = message.getBytes();
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
+
+        buffer.put(msgByte);
+        sop(buffer);
+
+        buffer.flip();
+        sop(buffer);
+
+        System.out.println(buffer.getChar());
+        sop(buffer);
+
+        buffer.compact();
+        sop(buffer);
+    }
+
 
     @Test
     public void testChannelWrite() {

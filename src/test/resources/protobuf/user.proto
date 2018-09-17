@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+//package com.lance.proto;
+
+option java_package = "com.lance.test.protobuf";
+option java_outer_classname = "User";
+
+/**
+ * protoc --java_out=../../java user.proto
+ */
+message UserInfo {
+    reserved "school";
+    reserved 10 to 13;
+
+    string name = 1;
+	int32 age = 2;
+}
