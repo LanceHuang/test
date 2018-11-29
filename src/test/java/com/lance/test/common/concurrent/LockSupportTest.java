@@ -31,4 +31,32 @@ public class LockSupportTest {
         LockSupport.park();
         System.out.println("Finished...");
     }
+
+    @Test
+    public void testParkNanos() {
+        System.out.println("Ready...");
+
+        final Thread mainThread = Thread.currentThread();
+
+        new Thread(() -> {
+            try {
+                TimeUnit.SECONDS.sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Fi");
+
+            LockSupport.unpark(mainThread);
+        }).start();
+
+
+        LockSupport.parkNanos(2000000000L);
+        System.out.println("Finished...");
+
+        try {
+            TimeUnit.SECONDS.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
