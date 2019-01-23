@@ -22,7 +22,9 @@ public class DigesterTest {
             inputStream = this.getClass().getClassLoader().getResourceAsStream("player.xml");
 
             Digester digester = createPlayerDigester();
-            Player player = (Player) digester.parse(inputStream);
+            Player player = new Player();
+            digester.push(player);
+            digester.parse(inputStream);
             System.out.println(player);
         } catch (IOException e) {
             e.printStackTrace();
@@ -41,7 +43,7 @@ public class DigesterTest {
 
     private Digester createPlayerDigester() {
         Digester digester = new Digester();
-        digester.push(new Player());
+
         digester.addSetProperties("player");
 
         digester.addObjectCreate("player/role", "com.lance.test.digester.Role", "className");
