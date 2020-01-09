@@ -37,8 +37,8 @@ public class UnitCore {
             long t1 = System.currentTimeMillis();
 
             testDefinition.runBefore();
-            testDefinition.runAfter();
             testDefinition.runTest();
+            testDefinition.runAfter();
 
             long t2 = System.currentTimeMillis();
             System.out.println("Spend: " + (t2 - t1) + " ms");
