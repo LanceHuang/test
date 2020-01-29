@@ -41,7 +41,7 @@
         <dependency>
             <groupId>com.lance.common</groupId>
             <artifactId>common-tool</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
         </dependency>
 
         <!-- log -->
