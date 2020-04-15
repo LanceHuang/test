@@ -59,4 +59,12 @@ public class MongoDBTest {
         coll.drop();
         db.drop();
     }
+
+    @Test
+    public void testItem() {
+        MongoDatabase db = client.getDatabase("game");
+        MongoCollection<Document> coll = db.getCollection("item");
+
+        // todo
+    }
 }
