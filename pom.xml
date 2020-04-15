@@ -410,5 +410,11 @@
             <version>3.0.1</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>3.12.3</version>
+        </dependency>
+
     </dependencies>
 </project>
