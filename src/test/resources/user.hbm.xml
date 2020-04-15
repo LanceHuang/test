@@ -1,0 +1,14 @@
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.lance.test.hibernate">
+
+    <class name="User" table="t_user">
+        <property name="id" type="int" column="id"/>
+        <property name="name" type="string" column="name"/>
+        <property name="age" type="int" column="age"/>
+        <property name="classId" type="int" column="cId"/>
+    </class>
+
+</hibernate-mapping>
