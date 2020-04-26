@@ -59,8 +59,10 @@ public final class RedisTools {
             throw new IllegalArgumentException();
         }
 
-        String result = redisClient.set(lockKey, lockKey, SET_IF_NOT_EXIST, expx.type, expireTime);
-        return SUCCESS.equals(result);
+        // TODO: 2020/2/21  
+//        String result = redisClient.set(lockKey, lockKey, SET_IF_NOT_EXIST, expx.type, expireTime);
+//        return SUCCESS.equals(result);
+        return false;
     }
 
     private static boolean isEmpty(String str) {
