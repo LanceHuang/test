@@ -1,4 +1,1 @@
-This project is used for testing some interesting idea. LOL. In very recent, I will delete some boring code. Have fun!!!
-
-* shiro
-* quartz
+测试工程，主要是各种工具的测试
