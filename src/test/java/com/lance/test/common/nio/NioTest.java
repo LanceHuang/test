@@ -5,8 +5,12 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
+import java.nio.channels.SelectableChannel;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.util.Iterator;
 
 /**
  * <ol>
@@ -126,12 +130,70 @@ public class NioTest {
         buffer.putChar('l');
         buffer.putChar('l');
         buffer.putChar('o');
-        buffer.flip(); // 切换写模式
+        buffer.flip(); // 切换到读模式
         int count = socketChannel.write(buffer);
         System.out.println("Write: " + count);
 
         // 3. close
         socketChannel.close();
+        System.out.println("Finished.");
+    }
+
+    @Test
+    public void testSelector() throws IOException {
+        Selector selector = Selector.open();
+
+        {
+            ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
+            serverSocketChannel.bind(new InetSocketAddress(port));
+            serverSocketChannel.configureBlocking(false);
+            serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
+            System.out.println("Ready to accept");
+        }
+
+        boolean quit = false;
+        while (!quit) {
+            int select = selector.select(1000L);
+            if (select <= 0) {
+                System.out.println("Sleep.");
+                continue;
+            }
+
+            for (Iterator<SelectionKey> iter = selector.selectedKeys().iterator(); iter.hasNext(); ) {
+                SelectionKey selectionKey = iter.next();
+                iter.remove();
+
+                if (selectionKey.isAcceptable()) {
+                    ServerSocketChannel serverSocketChannel = (ServerSocketChannel) selectionKey.channel();
+                    SocketChannel socketChannel = serverSocketChannel.accept();
+                    socketChannel.configureBlocking(false);
+                    socketChannel.register(selector, SelectionKey.OP_READ | SelectionKey.OP_WRITE);
+                    System.out.println("Accept: " + socketChannel);
+                } else if (selectionKey.isReadable()) {
+                    SocketChannel socketChannel = (SocketChannel) selectionKey.channel();
+
+                    ByteBuffer buffer = ByteBuffer.allocate(1024);
+                    int count = socketChannel.read(buffer);
+                    System.out.println("Read: " + count);
+                    if (count > 0) {
+                        System.out.print(buffer.getChar(0));
+                        System.out.print(buffer.getChar(2));
+                        System.out.print(buffer.getChar(4)); // 从index=4的byte开始，读两个byte，合成char并返回
+                        System.out.print(buffer.getChar(6));
+                        System.out.print(buffer.getChar(8));
+                        System.out.println();
+                    } else {
+                        selectionKey.cancel();
+                        socketChannel.close();
+                        quit = true;
+                    }
+                } else if (selectionKey.isWritable()) {
+                    // Write sth
+                }
+            }
+        }
+
+        selector.close();
         System.out.println("Finished.");
     }
 }
