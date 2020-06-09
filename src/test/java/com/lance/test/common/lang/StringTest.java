@@ -3,7 +3,6 @@ package com.lance.test.common.lang;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
-import static com.lance.common.tool.util.ConsolePrinter.*;
 import org.junit.Test;
 
 public class StringTest {
@@ -30,10 +29,10 @@ public class StringTest {
         for (String url : urls) {
             for (String pattern : patterns) {
                 if (url.matches(pattern)) {
-                   println(url + " " + pattern);
+                    System.out.println(url + " " + pattern);
                 }
             }
-            println("------------------------------------");
+            System.out.println("------------------------------------");
         }
 
     }

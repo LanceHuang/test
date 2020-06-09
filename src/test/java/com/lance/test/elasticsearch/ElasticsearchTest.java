@@ -34,8 +34,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import static com.lance.common.tool.util.ConsolePrinter.*;
-
 public class ElasticsearchTest {
 
     private Client client = null;
@@ -221,7 +219,7 @@ public class ElasticsearchTest {
 //                println(new Gson().toJson(agg));
 //                println(agg.getProperty());
 //                println((int) iSum.getValue());
-                print((int) iSum.getValue() + ",");
+                System.out.print((int) iSum.getValue() + ",");
 ////                SumAggregator sA = (SumAggregator)agg;
 //
 ////                System.out.println(metaData.get("sum"));
@@ -270,10 +268,10 @@ public class ElasticsearchTest {
         for (Object entry : internalHistogram.getBuckets()) {
             System.out.println(new Gson().toJson(entry));
             InternalHistogram.Bucket e = (InternalHistogram.Bucket) entry;
-            print(((DateTime) e.getKey()).getMillis() + " ");
+            System.out.print(((DateTime) e.getKey()).getMillis() + " ");
             for (Aggregation agg : e.getAggregations()) {
                 InternalSum iSum = (InternalSum) agg;
-                println((int) iSum.getValue());
+                System.out.println((int) iSum.getValue());
             }
         }
     }
@@ -316,10 +314,10 @@ public class ElasticsearchTest {
         for (Object entry : internalHistogram.getBuckets()) {
 //            System.out.println(new Gson().toJson(entry));
             InternalHistogram.Bucket e = (InternalHistogram.Bucket) entry;
-            print(((DateTime) e.getKey()).getMillis() + " ");
+            System.out.print(((DateTime) e.getKey()).getMillis() + " ");
             for (Aggregation agg : e.getAggregations()) {
                 InternalSum iSum = (InternalSum) agg;
-                println(iSum.getValue());
+                System.out.println(iSum.getValue());
             }
         }
     }
@@ -360,9 +358,9 @@ public class ElasticsearchTest {
         Terms terms = response.getAggregations().get("terms");
         for (Terms.Bucket entry : terms.getBuckets()) {
 //            println(new Gson().toJson(entry));
-            print(entry.getKey() + " ");
+            System.out.print(entry.getKey() + " ");
             InternalSum sum = entry.getAggregations().get("sumA");
-            println((int) sum.getValue());
+            System.out.println((int) sum.getValue());
         }
 
     }
@@ -397,7 +395,7 @@ public class ElasticsearchTest {
 
         Terms terms = response.getAggregations().get("terms");
         for (Terms.Bucket entry : terms.getBuckets()) {
-            println(entry.getKey() + " " + entry.getDocCount());
+            System.out.println(entry.getKey() + " " + entry.getDocCount());
         }
     }
 
