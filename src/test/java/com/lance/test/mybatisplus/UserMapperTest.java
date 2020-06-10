@@ -4,6 +4,9 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.lance.test.mybatisplus.mapper.UserMapper;
 import com.lance.test.mybatisplus.model.User;
+import com.lance.test.mybatisplus.model.UserInfo;
+import com.lance.test.mybatisplus.model.UserInfoTypeHandler;
+import org.apache.ibatis.type.TypeHandler;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
@@ -38,6 +41,7 @@ public class UserMapperTest {
     public MybatisSqlSessionFactoryBean sqlSessionFactoryBean(DataSource dataSource) {
         MybatisSqlSessionFactoryBean mybatisSqlSessionFactoryBean = new MybatisSqlSessionFactoryBean();
         mybatisSqlSessionFactoryBean.setDataSource(dataSource);
+        mybatisSqlSessionFactoryBean.setTypeHandlers(new UserInfoTypeHandler(UserInfo.class));
         return mybatisSqlSessionFactoryBean;
     }
 

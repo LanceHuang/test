@@ -18,8 +18,8 @@ public class User {
     private Integer  age;
     private String   email;
 
-    @TableField(typeHandler = JacksonTypeHandler.class)
-    private UserInfo user_info;
+    @TableField(value = "userinfo", typeHandler = JacksonTypeHandler.class)
+    private UserInfo userinfo;
 
     // todo 实体字段
 
@@ -55,12 +55,12 @@ public class User {
         this.email = email;
     }
 
-    public UserInfo getUser_info() {
-        return user_info;
+    public UserInfo getUserinfo() {
+        return userinfo;
     }
 
-    public void setUser_info(UserInfo user_info) {
-        this.user_info = user_info;
+    public void setUserinfo(UserInfo userinfo) {
+        this.userinfo = userinfo;
     }
 
     @Override
@@ -70,7 +70,7 @@ public class User {
                 ", name='" + name + '\'' +
                 ", age=" + age +
                 ", email='" + email + '\'' +
-                ", user_info=" + user_info +
+                ", userinfo=" + userinfo +
                 '}';
     }
 }
