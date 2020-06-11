@@ -9,16 +9,16 @@ import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 /**
  * @author Lance
  */
-@TableName(value = "user")
+@TableName(value = "user", autoResultMap = true)
 public class User {
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Long     id;
-    private String   name;
-    private Integer  age;
-    private String   email;
+    private Long    id;
+    private String  name;
+    private Integer age;
+    private String  email;
 
-    @TableField(value = "userinfo", typeHandler = JacksonTypeHandler.class)
+    @TableField(typeHandler = UserInfoTypeHandler.class)
     private UserInfo userinfo;
 
     // todo 实体字段

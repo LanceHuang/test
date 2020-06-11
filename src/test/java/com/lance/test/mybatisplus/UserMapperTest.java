@@ -41,7 +41,7 @@ public class UserMapperTest {
     public MybatisSqlSessionFactoryBean sqlSessionFactoryBean(DataSource dataSource) {
         MybatisSqlSessionFactoryBean mybatisSqlSessionFactoryBean = new MybatisSqlSessionFactoryBean();
         mybatisSqlSessionFactoryBean.setDataSource(dataSource);
-        mybatisSqlSessionFactoryBean.setTypeHandlers(new UserInfoTypeHandler(UserInfo.class));
+//        mybatisSqlSessionFactoryBean.setTypeHandlers(new UserInfoTypeHandler(UserInfo.class));
         return mybatisSqlSessionFactoryBean;
     }
 
