@@ -28,7 +28,7 @@ public class SmartLifecycleTest implements SmartLifecycle {
     }
 
     @Override
-    public void stop() {
+    public void stop() { // 当isRunning() == true时，才会调用
         if (!this.running) {
             return;
         }
