@@ -7,6 +7,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
+ * phase值小的，start先运行，stop后运行
+ *
  * @author Lance
  */
 @RunWith(SpringRunner.class)
