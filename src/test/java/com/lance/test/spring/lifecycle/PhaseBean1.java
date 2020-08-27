@@ -1,11 +1,11 @@
-package com.lance.test.spring;
+package com.lance.test.spring.lifecycle;
 
 import org.springframework.context.SmartLifecycle;
 
 /**
  * @author Lance
  */
-public class PhaseBean2 implements SmartLifecycle {
+public class PhaseBean1 implements SmartLifecycle {
 
     private boolean running = false;
 
@@ -15,7 +15,7 @@ public class PhaseBean2 implements SmartLifecycle {
             return;
         }
 
-        System.out.println("PhaseBean2 start");
+        System.out.println("PhaseBean1 start");
         this.running = true;
     }
 
@@ -25,7 +25,7 @@ public class PhaseBean2 implements SmartLifecycle {
             return;
         }
 
-        System.out.println("PhaseBean2 stop");
+        System.out.println("PhaseBean1 stop");
         this.running = false;
     }
 
@@ -36,6 +36,6 @@ public class PhaseBean2 implements SmartLifecycle {
 
     @Override
     public int getPhase() {
-        return Integer.MIN_VALUE;
+        return Integer.MAX_VALUE;
     }
 }

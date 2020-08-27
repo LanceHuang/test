@@ -1,4 +1,4 @@
-package com.lance.test.spring;
+package com.lance.test.spring.event;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
