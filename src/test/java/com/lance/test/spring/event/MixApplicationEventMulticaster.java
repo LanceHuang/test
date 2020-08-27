@@ -7,7 +7,7 @@ import org.springframework.context.event.ApplicationEventMulticaster;
 import org.springframework.core.ResolvableType;
 
 /**
- * 混合事件多播器
+ * 混合事件多播器（又或者抄一份SimpleApplicationEventMulticaster，然后改成支持两种操作）
  *
  * @author Lance
  */
