@@ -12,7 +12,7 @@ public class TestAsyncEvent extends MixApplicationEvent {
     }
 
     @Override
-    public EventType getType() {
-        return EventType.ASYNC;
+    public boolean isSync() {
+        return false;
     }
 }

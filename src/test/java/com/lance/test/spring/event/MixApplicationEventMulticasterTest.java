@@ -5,7 +5,6 @@ import org.junit.runner.RunWith;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
-import org.springframework.context.event.SimpleApplicationEventMulticaster;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -24,10 +23,9 @@ public class MixApplicationEventMulticasterTest {
 
     @Bean
     public MixApplicationEventMulticaster applicationEventMulticaster() {
-        SimpleApplicationEventMulticaster syncMulticaster = new SimpleApplicationEventMulticaster();
-        SimpleApplicationEventMulticaster asyncMulticaster = new SimpleApplicationEventMulticaster();
-        asyncMulticaster.setTaskExecutor(Executors.newSingleThreadExecutor());
-        return new MixApplicationEventMulticaster(syncMulticaster, asyncMulticaster);
+        MixApplicationEventMulticaster multicaster = new MixApplicationEventMulticaster();
+        multicaster.setTaskExecutor(Executors.newSingleThreadExecutor());
+        return multicaster;
     }
 
     @EventListener
@@ -45,8 +43,8 @@ public class MixApplicationEventMulticasterTest {
 
     @Test
     public void test() throws InterruptedException {
-        eventPublisher.publishEvent(new TestEvent()); // 发布事件
-        eventPublisher.publishEvent(new TestAsyncEvent(this));
+        eventPublisher.publishEvent(new TestEvent()); // 发布普通事件
+        eventPublisher.publishEvent(new TestAsyncEvent(this)); // 发布异步事件
         System.out.println("Hello world");
         System.out.println("MainThread: " + Thread.currentThread());
 

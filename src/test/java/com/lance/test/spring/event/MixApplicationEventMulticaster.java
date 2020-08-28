@@ -1,72 +1,40 @@
 package com.lance.test.spring.event;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ApplicationEventMulticaster;
+import org.springframework.context.event.SimpleApplicationEventMulticaster;
 import org.springframework.core.ResolvableType;
 
 /**
- * 混合事件多播器（又或者抄一份SimpleApplicationEventMulticaster，然后改成支持两种操作）
+ * 混合事件多播器
  *
  * @author Lance
  */
-public class MixApplicationEventMulticaster implements ApplicationEventMulticaster {
+public class MixApplicationEventMulticaster extends SimpleApplicationEventMulticaster {
 
-    private ApplicationEventMulticaster syncMulticaster;
+    public MixApplicationEventMulticaster() {
+    }
 
-    private ApplicationEventMulticaster asyncMulticaster;
-
-    public MixApplicationEventMulticaster(ApplicationEventMulticaster syncMulticaster, ApplicationEventMulticaster asyncMulticaster) {
-        this.syncMulticaster = syncMulticaster;
-        this.asyncMulticaster = asyncMulticaster;
+    public MixApplicationEventMulticaster(BeanFactory beanFactory) {
+        super(beanFactory);
     }
 
     @Override
-    public void addApplicationListener(@NonNull ApplicationListener<?> listener) {
-        this.syncMulticaster.addApplicationListener(listener);
-        this.asyncMulticaster.addApplicationListener(listener);
-    }
-
-    @Override
-    public void addApplicationListenerBean(@NonNull String listenerBeanName) {
-        this.syncMulticaster.addApplicationListenerBean(listenerBeanName);
-        this.asyncMulticaster.addApplicationListenerBean(listenerBeanName);
-    }
-
-    @Override
-    public void removeApplicationListener(@NonNull ApplicationListener<?> listener) {
-        this.syncMulticaster.removeApplicationListener(listener);
-        this.asyncMulticaster.removeApplicationListener(listener);
-    }
-
-    @Override
-    public void removeApplicationListenerBean(@NonNull String listenerBeanName) {
-        this.syncMulticaster.removeApplicationListenerBean(listenerBeanName);
-        this.asyncMulticaster.removeApplicationListenerBean(listenerBeanName);
-    }
-
-    @Override
-    public void removeAllListeners() {
-        this.syncMulticaster.removeAllListeners();
-        this.asyncMulticaster.removeAllListeners();
-    }
-
-    @Override
-    public void multicastEvent(@NonNull ApplicationEvent event) {
-        getMulticaster(event).multicastEvent(event);
-    }
-
-    @Override
-    public void multicastEvent(@NonNull ApplicationEvent event, ResolvableType eventType) {
-        getMulticaster(event).multicastEvent(event, eventType);
-    }
-
-    private ApplicationEventMulticaster getMulticaster(ApplicationEvent event) {
-        if (event instanceof MixApplicationEvent) {
-            MixApplicationEvent mixApplicationEvent = (MixApplicationEvent) event;
-            return mixApplicationEvent.getType() == EventType.SYNC ? this.syncMulticaster : this.asyncMulticaster;
+    public void multicastEvent(ApplicationEvent event, ResolvableType eventType) {
+        if (event instanceof MixApplicationEvent && !((MixApplicationEvent) event).isSync()) { // 异步事件
+            super.multicastEvent(event, eventType);
+            return;
         }
-        return this.syncMulticaster;
+
+        // 普通事件和同步事件都不调用Executor
+        ResolvableType type = (eventType != null ? eventType : resolveDefaultEventType(event));
+        for (ApplicationListener<?> listener : getApplicationListeners(event, type)) {
+            invokeListener(listener, event);
+        }
+    }
+
+    private ResolvableType resolveDefaultEventType(ApplicationEvent event) {
+        return ResolvableType.forInstance(event);
     }
 }
