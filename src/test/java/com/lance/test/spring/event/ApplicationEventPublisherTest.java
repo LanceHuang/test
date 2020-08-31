@@ -35,7 +35,7 @@ public class ApplicationEventPublisherTest {
     }
 
     @EventListener
-    public void testEvent(TestEvent event) { // 接收并处理事件，同步
+    public void onTestEvent(TestEvent event) { // 接收并处理事件，同步
         System.out.println("Receive TestEvent");
 //        System.out.println(799/0); // 用于测试ErrorHandler
     }

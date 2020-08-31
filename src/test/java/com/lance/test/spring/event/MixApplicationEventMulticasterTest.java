@@ -29,17 +29,16 @@ public class MixApplicationEventMulticasterTest {
     }
 
     @EventListener
-    public void testEvent(TestEvent event) { // 同步
+    public void onTestEvent(TestEvent event) { // 同步
         System.out.println("Receive TestEvent");
         System.out.println("WorkThread: " + Thread.currentThread());
     }
 
     @EventListener
-    public void testAsyncEvent(TestAsyncEvent event) { // 异步
+    public void onTestAsyncEvent(TestAsyncEvent event) { // 异步
         System.out.println("Receive TestAsyncEvent");
         System.out.println("WorkThread: " + Thread.currentThread());
     }
-
 
     @Test
     public void test() throws InterruptedException {
