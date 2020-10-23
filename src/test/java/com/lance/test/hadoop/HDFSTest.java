@@ -1,6 +1,6 @@
 package com.lance.test.hadoop;
 
-import com.lance.common.tool.util.FileUtils;
+import com.lance.common.tool.FileUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.FsUrlStreamHandlerFactory;
