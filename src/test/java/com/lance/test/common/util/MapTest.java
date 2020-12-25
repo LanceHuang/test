@@ -18,7 +18,7 @@ public class MapTest {
 
         Assert.assertEquals(map.getOrDefault("name", null), "lance");
         Assert.assertEquals(map.getOrDefault("age", "24"), "24");
-        Assert.assertNotEquals(map.getOrDefault("age", "24"), "23");
+        Assert.assertNotSame(map.getOrDefault("age", "24"), "23");
     }
 
     @Test

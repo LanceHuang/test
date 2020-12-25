@@ -47,6 +47,6 @@ public class UnsafeTest {
         success = compareAndSetState(90, 665);
         Assert.assertFalse(success);
         Assert.assertEquals(state, 8);
-        Assert.assertNotEquals(state, 665);
+        Assert.assertNotSame(state, 665);
     }
 }
