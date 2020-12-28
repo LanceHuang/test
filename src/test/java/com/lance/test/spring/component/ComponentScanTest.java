@@ -1,8 +1,10 @@
 package com.lance.test.spring.component;
 
 import com.lance.test.spring.component.service.IComponentScanTestService;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -14,6 +16,7 @@ import javax.annotation.Resource;
  */
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = ComponentScanTest.class)
+@ComponentScan
 public class ComponentScanTest {
 
     @Resource
@@ -21,7 +24,7 @@ public class ComponentScanTest {
 
     @Test
     public void test() {
-        System.out.println(testService);
+        Assert.assertNotNull(testService);
     }
 
 }
