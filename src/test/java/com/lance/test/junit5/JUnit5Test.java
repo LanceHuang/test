@@ -4,7 +4,13 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestFactory;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -68,4 +74,17 @@ public class JUnit5Test {
         System.out.println(e2);
     }
 
+    @TestFactory
+    public Stream<DynamicTest> testFactory() {
+        List<Integer> data = Arrays.asList(656, 46, 1, 22, 1105, 5, 5, 2, 331);
+        return DynamicTest.stream(
+                data.listIterator(),
+                item -> "Test: " + item,
+                item -> testData(item)
+        );
+    }
+
+    public void testData(int data) {
+        System.out.println(data);
+    }
 }
