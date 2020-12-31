@@ -36,6 +36,12 @@
             <artifactId>common-tool</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.lance.common</groupId>
+            <artifactId>common-test</artifactId>
+            <version>1.0.0</version>
+            <scope>test</scope>
+        </dependency>
 
         <!-- log -->
         <dependency>
