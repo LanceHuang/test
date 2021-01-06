@@ -168,11 +168,6 @@
 
         <!-- project -->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
             <version>1.9.1</version>
@@ -207,11 +202,6 @@
 
         <dependency>
             <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-core</artifactId>
-            <version>7.5.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-backward-codecs</artifactId>
             <version>7.5.0</version>
         </dependency>
@@ -238,11 +228,6 @@
             <groupId>io.shardingsphere</groupId>
             <artifactId>sharding-jdbc</artifactId>
             <version>3.0.0.M1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -331,11 +316,6 @@
 
         <dependency>
             <groupId>org.apache.hbase</groupId>
-            <artifactId>hbase-client</artifactId>
-            <version>${hbase.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.hbase</groupId>
             <artifactId>hbase-server</artifactId>
             <version>${hbase.version}</version>
         </dependency>
@@ -391,18 +371,6 @@
                     <artifactId>HikariCP-java6</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>us.codecraft</groupId>
-            <artifactId>webmagic-core</artifactId>
-            <version>0.7.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
-            <version>3.5.2</version>
         </dependency>
 
     </dependencies>
