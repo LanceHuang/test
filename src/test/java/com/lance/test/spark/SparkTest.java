@@ -126,13 +126,13 @@ public class SparkTest implements Serializable {
 
         JavaRDD<String> wordRDD = lineRDD.flatMap(new FlatMapFunction<String, String>() {
             @Override
-            public Iterable<String> call(String s) throws Exception {
+            public Iterator<String> call(String s) throws Exception {
                 List<String> list = new LinkedList<String>();
                 StringTokenizer tokenizer = new StringTokenizer(s);
                 while (tokenizer.hasMoreTokens()) {
                     list.add(tokenizer.nextToken());
                 }
-                return list;
+                return list.iterator();
             }
         });
 
