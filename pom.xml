@@ -27,7 +27,7 @@
         <spring.version>5.2.12.RELEASE</spring.version>
         <hadoop.version>2.7.3</hadoop.version>
         <hbase.version>1.2.4</hbase.version>
-        <spark.version>1.6.1</spark.version>
+        <spark.version>2.2.2</spark.version>
     </properties>
 
     <dependencies>
