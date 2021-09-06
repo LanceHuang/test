@@ -35,6 +35,8 @@ public class OrderStateMachineConfig extends StateMachineConfigurerAdapter<Order
         transitions
                 .withExternal().source(OrderState.NONE).target(OrderState.RUNNING).event(OrderStateChangeEvent.RUN)
                 .and()
+                .withExternal().source(OrderState.RUNNING).target(OrderState.NONE).event(OrderStateChangeEvent.STOP_RUN)
+                .and()
                 .withExternal().source(OrderState.NONE).target(OrderState.WAITING).event(OrderStateChangeEvent.WAIT)
                 .and()
                 .withExternal().source(OrderState.NONE).target(OrderState.BLOCKING).event(OrderStateChangeEvent.BLOCK);

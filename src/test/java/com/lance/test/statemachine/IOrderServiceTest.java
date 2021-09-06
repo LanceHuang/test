@@ -27,6 +27,7 @@ public class IOrderServiceTest {
 //        orderService.createOrder(System.currentTimeMillis());
         stateMachine.start();
         stateMachine.sendEvent(OrderStateChangeEvent.RUN);
+        stateMachine.sendEvent(OrderStateChangeEvent.STOP_RUN);
     }
 
     @SpringBootApplication

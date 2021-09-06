@@ -14,4 +14,9 @@ public class OrderListener {
     public void running() {
         System.out.println("Running order");
     }
+
+    @OnTransition(source = "RUNNING", target = "NONE")
+    public void stopRun() {
+        System.out.println("Stop run order");
+    }
 }

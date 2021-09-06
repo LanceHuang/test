@@ -9,6 +9,7 @@ package com.lance.test.statemachine.constant;
 public enum OrderStateChangeEvent {
 
     RUN,
+    STOP_RUN,
     WAIT,
     BLOCK,
     ;
