@@ -53,4 +53,100 @@ public class StateMachineTest {
         stateMachine.sendEvent(ObjectStateChange.S2S3);
         Assertions.assertTrue(stateMachine.isComplete());
     }
+
+    @Test
+    public void testHierarchy() throws Exception {
+        StateMachineBuilder.Builder<ObjectState, ObjectStateChange> builder = StateMachineBuilder.builder();
+
+        // config
+        builder.configureConfiguration()
+                .withConfiguration()
+                .autoStartup(true) // 自动start
+                .listener(new StateMachineListenerAdapter<ObjectState, ObjectStateChange>() { // 监听器，每个状态改变都会处理
+
+                    @Override
+                    public void stateChanged(State<ObjectState, ObjectStateChange> from, State<ObjectState, ObjectStateChange> to) {
+                        System.out.println("State change to " + to.getId());
+                    }
+                });
+
+        // states
+        builder.configureStates()
+                .withStates()
+                .initial(ObjectState.S1) // 初始状态
+                .state(ObjectState.S1).state(ObjectState.S2).state(ObjectState.S3)
+                .and().withStates().parent(ObjectState.S2)
+                .initial(ObjectState.S2C1).end(ObjectState.S2C2);
+
+        // transitions
+        builder.configureTransitions()
+                .withExternal().source(ObjectState.S1).target(ObjectState.S2).event(ObjectStateChange.S1S2)
+                .and()
+                .withExternal().source(ObjectState.S1).target(ObjectState.S3).event(ObjectStateChange.S1S3)
+                .and()
+                .withExternal().source(ObjectState.S2).target(ObjectState.S3).event(ObjectStateChange.S2S3)
+                .and()
+                .withExternal().source(ObjectState.S3).target(ObjectState.S2).event(ObjectStateChange.S3S2)
+                .and()
+                .withExternal().source(ObjectState.S2C1).target(ObjectState.S2C2).event(ObjectStateChange.S2C1S2C2)
+        ;
+
+        // test
+        StateMachine<ObjectState, ObjectStateChange> stateMachine = builder.build();
+        stateMachine.sendEvent(ObjectStateChange.S1S2); // 发送事件，触发状态转换
+        stateMachine.sendEvent(ObjectStateChange.S2S3);
+        stateMachine.sendEvent(ObjectStateChange.S2C1S2C2);
+        stateMachine.sendEvent(ObjectStateChange.S2S3);
+        stateMachine.sendEvent(ObjectStateChange.S3S2);
+        stateMachine.sendEvent(ObjectStateChange.S2C1S2C2);
+    }
+
+
+    @Test
+    public void testRegion() throws Exception {
+        StateMachineBuilder.Builder<ObjectState, ObjectStateChange> builder = StateMachineBuilder.builder();
+
+        // config
+        builder.configureConfiguration()
+                .withConfiguration()
+                .autoStartup(true) // 自动start
+                .listener(new StateMachineListenerAdapter<ObjectState, ObjectStateChange>() { // 监听器，每个状态改变都会处理
+
+                    @Override
+                    public void stateChanged(State<ObjectState, ObjectStateChange> from, State<ObjectState, ObjectStateChange> to) {
+                        System.out.println("State change to " + to.getId());
+                    }
+                });
+
+        // states
+        builder.configureStates()
+                .withStates()
+                .initial(ObjectState.S1) // 初始状态
+                .state(ObjectState.S1).state(ObjectState.S2).state(ObjectState.S3)
+                .and().withStates().parent(ObjectState.S2).initial(ObjectState.S2C1).end(ObjectState.S2C2)
+                .and().withStates().parent(ObjectState.S2).initial(ObjectState.S2C1).end(ObjectState.S2C2)
+        ;
+
+        // transitions
+        builder.configureTransitions()
+                .withExternal().source(ObjectState.S1).target(ObjectState.S2).event(ObjectStateChange.S1S2)
+                .and()
+                .withExternal().source(ObjectState.S1).target(ObjectState.S3).event(ObjectStateChange.S1S3)
+                .and()
+                .withExternal().source(ObjectState.S2).target(ObjectState.S3).event(ObjectStateChange.S2S3)
+                .and()
+                .withExternal().source(ObjectState.S3).target(ObjectState.S2).event(ObjectStateChange.S3S2)
+                .and()
+                .withExternal().source(ObjectState.S2C1).target(ObjectState.S2C2).event(ObjectStateChange.S2C1S2C2)
+        ;
+
+        // test
+        StateMachine<ObjectState, ObjectStateChange> stateMachine = builder.build();
+        stateMachine.sendEvent(ObjectStateChange.S1S2); // 发送事件，触发状态转换
+        stateMachine.sendEvent(ObjectStateChange.S2S3);
+        stateMachine.sendEvent(ObjectStateChange.S2C1S2C2);
+        stateMachine.sendEvent(ObjectStateChange.S2S3);
+        stateMachine.sendEvent(ObjectStateChange.S3S2);
+        stateMachine.sendEvent(ObjectStateChange.S2C1S2C2);
+    }
 }
