@@ -1,11 +1,11 @@
-package com.lance.test.common.binarytree;
+package com.lance.test.common.balancedbinarytree;
 
 /**
  * 二叉树搜索树
  * <ul>
- *     <li>插入：O(lgn)~O(n)</li>
+ *     <li>插入：O(lgn)</li>
  *     <li>删除：O(lgn)</li>
- *     <li>查询指定数据：O(lgn)~O(n)</li>
+ *     <li>查询指定数据：O(lgn)</li>
  *     <li>查询结点数：O(1)</li>
  * </ul>
  *
@@ -13,7 +13,7 @@ package com.lance.test.common.binarytree;
  * @author Lance
  * @since 2021/9/22
  */
-public class BinaryTree<T extends Comparable<T>> {
+public class BalancedBinaryTree<T extends Comparable<T>> {
 
     private static final int LEFT = 1;
     private static final int RIGHT = 2;
@@ -199,44 +199,5 @@ public class BinaryTree<T extends Comparable<T>> {
      */
     public int getCount() {
         return count;
-    }
-
-    /**
-     * 计算
-     *
-     * @return 层数
-     */
-    public int getLevel() {
-        return getLevel(root, 0);
-    }
-
-    private int getLevel(Node<T> node, int level) {
-        if (node == null) {
-            return level;
-        }
-        int leftLevel = getLevel(node.getLeft(), level + 1);
-        int rightLevel = getLevel(node.getRight(), level + 1);
-        return Math.max(leftLevel, rightLevel);
-    }
-
-    /**
-     * 打印
-     */
-    public void logTree() {
-        logNode(root, 0);
-    }
-
-    private void logNode(Node<T> node, int level) {
-        if (node == null) {
-            return;
-        }
-
-        for (int i = 0; i < level; i++) {
-            System.out.print("\t");
-        }
-        System.out.println(node.getData());
-
-        logNode(node.getLeft(), level + 1);
-        logNode(node.getRight(), level + 1);
     }
 }

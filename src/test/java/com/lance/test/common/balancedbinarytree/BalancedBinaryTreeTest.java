@@ -1,4 +1,4 @@
-package com.lance.test.common.binarytree;
+package com.lance.test.common.balancedbinarytree;
 
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.Test;
@@ -9,7 +9,7 @@ import java.util.Arrays;
  * @author Lance
  * @since 2021/9/22
  */
-public class BinaryTreeTest {
+public class BalancedBinaryTreeTest {
 
     @Test
     public void test() {
@@ -24,28 +24,25 @@ public class BinaryTreeTest {
         System.out.println();
 
         // 初始化二叉搜索树
-        BinaryTree<Integer> binaryTree = new BinaryTree<>();
+        BalancedBinaryTree<Integer> balancedBinaryTree = new BalancedBinaryTree<>();
         for (int num : nums) {
-            binaryTree.insert(num);
+            balancedBinaryTree.insert(num);
         }
 
         // 查询数据
         int searchNum = 20;
         System.out.println("Search: " + searchNum);
-        System.out.println("Search result: " + binaryTree.contains(searchNum));
-        System.out.println("Count: " + binaryTree.getCount());
-        System.out.println("Level: " + binaryTree.getLevel());
-        binaryTree.logTree();
+        System.out.println("Search result: " + balancedBinaryTree.contains(searchNum));
+        System.out.println("Count: " + balancedBinaryTree.getCount());
         System.out.println();
+
 
         // 删除数据
         int removeNum = 20;
-        binaryTree.remove(removeNum);
+        balancedBinaryTree.remove(removeNum);
         System.out.println("Remove: " + removeNum);
         System.out.println("Search: " + searchNum);
-        System.out.println("Search result: " + binaryTree.contains(searchNum));
-        System.out.println("Count: " + binaryTree.getCount());
-        System.out.println("Level: " + binaryTree.getLevel());
-        binaryTree.logTree();
+        System.out.println("Search result: " + balancedBinaryTree.contains(searchNum));
+        System.out.println("Count: " + balancedBinaryTree.getCount());
     }
 }
