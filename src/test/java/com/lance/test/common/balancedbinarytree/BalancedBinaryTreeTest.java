@@ -24,25 +24,28 @@ public class BalancedBinaryTreeTest {
         System.out.println();
 
         // 初始化二叉搜索树
-        BalancedBinaryTree<Integer> balancedBinaryTree = new BalancedBinaryTree<>();
+        BalancedBinaryTree<Integer> binaryTree = new BalancedBinaryTree<>();
         for (int num : nums) {
-            balancedBinaryTree.insert(num);
+            binaryTree.insert(num);
         }
 
         // 查询数据
         int searchNum = 20;
         System.out.println("Search: " + searchNum);
-        System.out.println("Search result: " + balancedBinaryTree.contains(searchNum));
-        System.out.println("Count: " + balancedBinaryTree.getCount());
+        System.out.println("Search result: " + binaryTree.contains(searchNum));
+        System.out.println("Count: " + binaryTree.getCount());
+        System.out.println("Level: " + binaryTree.getLevel());
+        binaryTree.logTree();
         System.out.println();
-
 
         // 删除数据
         int removeNum = 20;
-        balancedBinaryTree.remove(removeNum);
+        binaryTree.remove(removeNum);
         System.out.println("Remove: " + removeNum);
         System.out.println("Search: " + searchNum);
-        System.out.println("Search result: " + balancedBinaryTree.contains(searchNum));
-        System.out.println("Count: " + balancedBinaryTree.getCount());
+        System.out.println("Search result: " + binaryTree.contains(searchNum));
+        System.out.println("Count: " + binaryTree.getCount());
+        System.out.println("Level: " + binaryTree.getLevel());
+        binaryTree.logTree();
     }
 }

@@ -1,5 +1,8 @@
 package com.lance.test.common.balancedbinarytree;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * 二叉树搜索树
  * <ul>
@@ -30,34 +33,108 @@ public class BalancedBinaryTree<T extends Comparable<T>> {
      * @param data 数据
      */
     public void insert(T data) {
-        if (root == null) {
-            root = new Node<>(data);
-            count++;
-        } else {
-            if (insert(root, data)) {
-                count++;
-            }
+        if (data == null) {
+            return;
         }
+
+        root = insert(root, data);
     }
 
-    private boolean insert(Node<T> node, T data) {
-        int compareResult = node.getData().compareTo(data);
-        if (compareResult > 0) {
-            if (node.getLeft() == null) {
-                node.setLeft(new Node<>(data));
-                return true;
+    private Node<T> insert(Node<T> node, T data) {
+        if (node == null) {
+            count++;
+            return new Node<>(data);
+        }
+
+        // 插入结点
+        int cmp = data.compareTo(node.data);
+        if (cmp < 0) {
+            node.left = insert(node.left, data);
+        } else if (cmp > 0) {
+            node.right = insert(node.right, data);
+        } else {
+            return node;
+        }
+
+        // 平衡结点
+        node = afterInsert(node, data);
+
+        // 更新高度
+        node.height = Math.max(getHeight(node.left), getHeight(node.right)) + 1;
+        return node;
+    }
+
+    private Node<T> afterInsert(Node<T> node, T data) {
+        if (isBalanced(node)) {
+            return node;
+        }
+
+        int cmp = data.compareTo(node.data);
+        if (cmp < 0) {
+            int leftCmp = data.compareTo(node.left.data);
+            if (leftCmp < 0) {
+                // LL
+                node = rightRotate(node);
             } else {
-                return insert(node.getLeft(), data);
+                // LR
+                node.left = leftRotate(node.left);
+                node = rightRotate(node);
             }
-        } else if (compareResult < 0) {
-            if (node.getRight() == null) {
-                node.setRight(new Node<>(data));
-                return true;
+        } else if (cmp > 0) {
+            int rightCmp = data.compareTo(node.right.data);
+            if (rightCmp < 0) {
+                // RL
+                node.right = rightRotate(node.right);
+                node = leftRotate(node);
             } else {
-                return insert(node.getRight(), data);
+                // RR
+                node = leftRotate(node);
             }
         }
-        return false;
+        return node;
+    }
+
+    private boolean isBalanced(Node<T> node) {
+        int leftHeight = getHeight(node.left);
+        int rightHeight = getHeight(node.right);
+        return Math.abs(leftHeight - rightHeight) <= 1;
+    }
+
+    /**
+     * 计算结点高度
+     *
+     * @param node 结点
+     * @return 高度
+     */
+    private int getHeight(Node<T> node) {
+        if (node == null) {
+            return 0;
+        }
+        return node.height;
+    }
+
+    /**
+     * 右旋
+     *
+     * @param node 失衡结点
+     */
+    private Node<T> rightRotate(Node<T> node) {
+        Node<T> leftNode = node.left;
+        node.left = leftNode.right;
+        leftNode.right = node;
+        return leftNode;
+    }
+
+    /**
+     * 左旋
+     *
+     * @param node 失衡结点
+     */
+    private Node<T> leftRotate(Node<T> node) {
+        Node<T> rightNode = node.right;
+        node.right = rightNode.left;
+        rightNode.left = node;
+        return rightNode;
     }
 
     /**
@@ -69,13 +146,13 @@ public class BalancedBinaryTree<T extends Comparable<T>> {
     public boolean contains(T data) {
         if (root == null) {
             return false;
-        } else {
-            return contains(root, data);
         }
+
+        return contains(root, data);
     }
 
     public boolean contains(Node<T> node, T data) {
-        int compareResult = node.getData().compareTo(data);
+        int compareResult = node.data.compareTo(data);
         if (compareResult > 0) {
             if (node.getLeft() == null) {
                 return false;
@@ -200,4 +277,63 @@ public class BalancedBinaryTree<T extends Comparable<T>> {
     public int getCount() {
         return count;
     }
+
+
+    /**
+     * 计算
+     *
+     * @return 层数
+     */
+    public int getLevel() {
+        return getLevel(root, 0);
+    }
+
+    private int getLevel(Node<T> node, int level) {
+        if (node == null) {
+            return level;
+        }
+        int leftLevel = getLevel(node.getLeft(), level + 1);
+        int rightLevel = getLevel(node.getRight(), level + 1);
+        return Math.max(leftLevel, rightLevel);
+    }
+
+    /**
+     * 打印
+     */
+    public void logTree() {
+        logNode(root, 0);
+    }
+
+    private void logNode(Node<T> node, int level) {
+        if (node == null) {
+            return;
+        }
+
+        logNode(node.getLeft(), level + 1);
+
+        for (int i = 0; i < level; i++) {
+            System.out.print("\t");
+        }
+        System.out.println(node.getData());
+
+        logNode(node.getRight(), level + 1);
+    }
+
+    @Getter
+    @Setter
+    public static class Node<T> {
+
+        private T data;
+
+        private Node<T> left;
+
+        private Node<T> right;
+
+        private int height;
+
+        public Node(T data) {
+            this.data = data;
+        }
+    }
+
 }
