@@ -27,6 +27,9 @@ public class BalancedBinaryTreeTest {
         BalancedBinaryTree<Integer> binaryTree = new BalancedBinaryTree<>();
         for (int num : nums) {
             binaryTree.insert(num);
+//            System.out.println("============================== " + num);
+//            binaryTree.logTree();
+//            System.out.println("==============================");
         }
 
         // 查询数据
@@ -34,18 +37,18 @@ public class BalancedBinaryTreeTest {
         System.out.println("Search: " + searchNum);
         System.out.println("Search result: " + binaryTree.contains(searchNum));
         System.out.println("Count: " + binaryTree.getCount());
-        System.out.println("Level: " + binaryTree.getLevel());
+        System.out.println("Height: " + binaryTree.getHeight());
         binaryTree.logTree();
         System.out.println();
 
         // 删除数据
-        int removeNum = 20;
+        int removeNum = nums[5];
         binaryTree.remove(removeNum);
         System.out.println("Remove: " + removeNum);
         System.out.println("Search: " + searchNum);
         System.out.println("Search result: " + binaryTree.contains(searchNum));
         System.out.println("Count: " + binaryTree.getCount());
-        System.out.println("Level: " + binaryTree.getLevel());
+        System.out.println("Height: " + binaryTree.getHeight());
         binaryTree.logTree();
     }
 }

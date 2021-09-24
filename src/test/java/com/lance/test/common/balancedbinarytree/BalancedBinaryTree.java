@@ -18,9 +18,6 @@ import lombok.Setter;
  */
 public class BalancedBinaryTree<T extends Comparable<T>> {
 
-    private static final int LEFT = 1;
-    private static final int RIGHT = 2;
-
     /** 根结点 */
     private Node<T> root;
 
@@ -60,7 +57,7 @@ public class BalancedBinaryTree<T extends Comparable<T>> {
         node = afterInsert(node, data);
 
         // 更新高度
-        node.height = Math.max(getHeight(node.left), getHeight(node.right)) + 1;
+        updateHeight(node);
         return node;
     }
 
@@ -101,6 +98,15 @@ public class BalancedBinaryTree<T extends Comparable<T>> {
     }
 
     /**
+     * 计算高度
+     *
+     * @return 高度
+     */
+    public int getHeight() {
+        return getHeight(root);
+    }
+
+    /**
      * 计算结点高度
      *
      * @param node 结点
@@ -114,6 +120,18 @@ public class BalancedBinaryTree<T extends Comparable<T>> {
     }
 
     /**
+     * 更新结点高度
+     *
+     * @param node 结点
+     */
+    private void updateHeight(Node<T> node) {
+        if (node == null) {
+            return;
+        }
+        node.height = Math.max(getHeight(node.left), getHeight(node.right)) + 1;
+    }
+
+    /**
      * 右旋
      *
      * @param node 失衡结点
@@ -122,6 +140,7 @@ public class BalancedBinaryTree<T extends Comparable<T>> {
         Node<T> leftNode = node.left;
         node.left = leftNode.right;
         leftNode.right = node;
+        updateHeight(node);
         return leftNode;
     }
 
@@ -134,6 +153,7 @@ public class BalancedBinaryTree<T extends Comparable<T>> {
         Node<T> rightNode = node.right;
         node.right = rightNode.left;
         rightNode.left = node;
+        updateHeight(node);
         return rightNode;
     }
 
@@ -144,7 +164,7 @@ public class BalancedBinaryTree<T extends Comparable<T>> {
      * @return 判断结果
      */
     public boolean contains(T data) {
-        if (root == null) {
+        if (data == null) {
             return false;
         }
 
@@ -152,19 +172,15 @@ public class BalancedBinaryTree<T extends Comparable<T>> {
     }
 
     public boolean contains(Node<T> node, T data) {
-        int compareResult = node.data.compareTo(data);
-        if (compareResult > 0) {
-            if (node.getLeft() == null) {
-                return false;
-            } else {
-                return contains(node.getLeft(), data);
-            }
-        } else if (compareResult < 0) {
-            if (node.getRight() == null) {
-                return false;
-            } else {
-                return contains(node.getRight(), data);
-            }
+        if (node == null) {
+            return false;
+        }
+
+        int compareResult = data.compareTo(node.data);
+        if (compareResult < 0) {
+            return contains(node.left, data);
+        } else if (compareResult > 0) {
+            return contains(node.right, data);
         } else {
             return true;
         }
@@ -176,53 +192,56 @@ public class BalancedBinaryTree<T extends Comparable<T>> {
      * @param data 数据
      */
     public void remove(T data) {
-        if (remove(null, root, LEFT, data)) {
-            count--;
+        if (data == null) {
+            return;
         }
+
+        root = remove(root, data, false);
     }
 
-    private boolean remove(Node<T> parent, Node<T> node, int child, T data) {
+    private Node<T> remove(Node<T> node, T data, boolean move) {
         if (node == null) {
-            return false;
+            return null;
         }
 
-        int compareResult = node.getData().compareTo(data);
-        if (compareResult > 0) {
-            if (node.getLeft() == null) {
-                return false;
-            } else {
-                return remove(node, node.getLeft(), LEFT, data);
-            }
-        } else if (compareResult < 0) {
-            if (node.getRight() == null) {
-                return false;
-            } else {
-                return remove(node, node.getRight(), RIGHT, data);
-            }
+        int compareResult = data.compareTo(node.data);
+        if (compareResult < 0) {
+            node.left = remove(node.left, data, move);
+        } else if (compareResult > 0) {
+            node.right = remove(node.right, data, move);
         } else {
-            Node<T> replaceNode;
-            if (node.getLeft() == null && node.getRight() == null) {
-                replaceNode = null;
-            } else if (node.getLeft() != null && node.getRight() == null) {
-                replaceNode = node.getLeft();
-            } else if (node.getLeft() == null && node.getRight() != null) {
-                replaceNode = node.getRight();
+            if (node.left == null && node.right == null) {
+                node = null;
+            } else if (node.left != null && node.right == null) {
+                node = node.left;
+            } else if (node.left == null && node.right != null) {
+                node = node.right;
             } else {
-                replaceNode = getMin(node.getRight());
-                if (replaceNode != null) {
-                    remove(node, node.getRight(), RIGHT, replaceNode.getData());
+                // 删除右子树最小的结点
+                Node<T> replaceNode = getMin(node.right);
+                remove(node.right, replaceNode.data, true);
+
+                // 替换原来的结点
+                replaceNode.left = node.left;
+                if (replaceNode != node.right) {
+                    replaceNode.right = node.right;
                 }
+                node = replaceNode;
             }
 
-            if (parent != null) {
-                if (child == LEFT) {
-                    parent.setLeft(replaceNode);
-                } else {
-                    parent.setRight(replaceNode);
-                }
+            if (!move) {
+                // 更新数量
+                count--;
             }
-            return true;
         }
+
+        // todo afterRemove
+
+        // 更新高度
+        if (node != null) {
+            updateHeight(node);
+        }
+        return node;
     }
 
     /**
@@ -232,7 +251,7 @@ public class BalancedBinaryTree<T extends Comparable<T>> {
      */
     public T getMax() {
         Node<T> maxNode = getMax(root);
-        return maxNode == null ? null : maxNode.getData();
+        return maxNode == null ? null : maxNode.data;
     }
 
     private Node<T> getMax(Node<T> node) {
@@ -240,8 +259,8 @@ public class BalancedBinaryTree<T extends Comparable<T>> {
             return null;
         }
 
-        if (node.getRight() != null) {
-            return getMax(node.getRight());
+        if (node.right != null) {
+            return getMax(node.right);
         } else {
             return node;
         }
@@ -254,7 +273,7 @@ public class BalancedBinaryTree<T extends Comparable<T>> {
      */
     public T getMin() {
         Node<T> minNode = getMin(root);
-        return minNode == null ? null : minNode.getData();
+        return minNode == null ? null : minNode.data;
     }
 
     private Node<T> getMin(Node<T> node) {
@@ -262,8 +281,8 @@ public class BalancedBinaryTree<T extends Comparable<T>> {
             return null;
         }
 
-        if (node.getLeft() != null) {
-            return getMin(node.getLeft());
+        if (node.left != null) {
+            return getMin(node.left);
         } else {
             return node;
         }
@@ -278,25 +297,6 @@ public class BalancedBinaryTree<T extends Comparable<T>> {
         return count;
     }
 
-
-    /**
-     * 计算
-     *
-     * @return 层数
-     */
-    public int getLevel() {
-        return getLevel(root, 0);
-    }
-
-    private int getLevel(Node<T> node, int level) {
-        if (node == null) {
-            return level;
-        }
-        int leftLevel = getLevel(node.getLeft(), level + 1);
-        int rightLevel = getLevel(node.getRight(), level + 1);
-        return Math.max(leftLevel, rightLevel);
-    }
-
     /**
      * 打印
      */
@@ -309,14 +309,14 @@ public class BalancedBinaryTree<T extends Comparable<T>> {
             return;
         }
 
-        logNode(node.getLeft(), level + 1);
+        logNode(node.left, level + 1);
 
         for (int i = 0; i < level; i++) {
             System.out.print("\t");
         }
-        System.out.println(node.getData());
+        System.out.println(node.data + "(" + node.height + ")");
 
-        logNode(node.getRight(), level + 1);
+        logNode(node.right, level + 1);
     }
 
     @Getter
@@ -329,7 +329,7 @@ public class BalancedBinaryTree<T extends Comparable<T>> {
 
         private Node<T> right;
 
-        private int height;
+        private int height = 1;
 
         public Node(T data) {
             this.data = data;
