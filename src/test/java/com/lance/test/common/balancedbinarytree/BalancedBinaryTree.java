@@ -52,110 +52,38 @@ public class BalancedBinaryTree<T extends Comparable<T>> {
         } else {
             return node;
         }
+        // 更新高度
+        updateHeight(node);
 
         // 平衡结点
-        node = afterInsert(node, data);
+        node = balanceNode(node);
+        return node;
+    }
 
+    private Node<T> balanceNode(Node<T> node) {
+        if (node == null) {
+            return null;
+        }
+
+        int diff = getHeightDiff(node);
+        int leftDiff = getHeightDiff(node.left);
+        int rightDiff = getHeightDiff(node.right);
+        if (diff > 1 && leftDiff > 1) {
+            node = rightRotate(node);
+        } else if (diff > 1) {
+            node.left = leftRotate(node.left);
+            node = rightRotate(node);
+        } else if (diff < -1 && rightDiff > 1) {
+            node.right = rightRotate(node.right);
+            node = leftRotate(node);
+        } else if (diff < -1) {
+            node = leftRotate(node);
+        }
         // 更新高度
         updateHeight(node);
         return node;
     }
 
-    private Node<T> afterInsert(Node<T> node, T data) {
-        if (isBalanced(node)) {
-            return node;
-        }
-
-        int cmp = data.compareTo(node.data);
-        if (cmp < 0) {
-            int leftCmp = data.compareTo(node.left.data);
-            if (leftCmp < 0) {
-                // LL
-                node = rightRotate(node);
-            } else {
-                // LR
-                node.left = leftRotate(node.left);
-                node = rightRotate(node);
-            }
-        } else if (cmp > 0) {
-            int rightCmp = data.compareTo(node.right.data);
-            if (rightCmp < 0) {
-                // RL
-                node.right = rightRotate(node.right);
-                node = leftRotate(node);
-            } else {
-                // RR
-                node = leftRotate(node);
-            }
-        }
-        return node;
-    }
-
-    private boolean isBalanced(Node<T> node) {
-        int leftHeight = getHeight(node.left);
-        int rightHeight = getHeight(node.right);
-        return Math.abs(leftHeight - rightHeight) <= 1;
-    }
-
-    /**
-     * 计算高度
-     *
-     * @return 高度
-     */
-    public int getHeight() {
-        return getHeight(root);
-    }
-
-    /**
-     * 计算结点高度
-     *
-     * @param node 结点
-     * @return 高度
-     */
-    private int getHeight(Node<T> node) {
-        if (node == null) {
-            return 0;
-        }
-        return node.height;
-    }
-
-    /**
-     * 更新结点高度
-     *
-     * @param node 结点
-     */
-    private void updateHeight(Node<T> node) {
-        if (node == null) {
-            return;
-        }
-        node.height = Math.max(getHeight(node.left), getHeight(node.right)) + 1;
-    }
-
-    /**
-     * 右旋
-     *
-     * @param node 失衡结点
-     */
-    private Node<T> rightRotate(Node<T> node) {
-        Node<T> leftNode = node.left;
-        node.left = leftNode.right;
-        leftNode.right = node;
-        updateHeight(node);
-        return leftNode;
-    }
-
-    /**
-     * 左旋
-     *
-     * @param node 失衡结点
-     */
-    private Node<T> leftRotate(Node<T> node) {
-        Node<T> rightNode = node.right;
-        node.right = rightNode.left;
-        rightNode.left = node;
-        updateHeight(node);
-        return rightNode;
-    }
 
     /**
      * 判断数据是否存在
@@ -235,13 +163,108 @@ public class BalancedBinaryTree<T extends Comparable<T>> {
             }
         }
 
-        // todo afterRemove
-
         // 更新高度
-        if (node != null) {
-            updateHeight(node);
-        }
+        updateHeight(node);
+        // 平衡结点
+        node = balanceNode(node);
         return node;
+    }
+
+    /**
+     * 右旋
+     *
+     * @param node 失衡结点
+     */
+    private Node<T> rightRotate(Node<T> node) {
+        if (node == null) {
+            return null;
+        }
+
+        if (node.left == null) {
+            return node;
+        }
+
+        Node<T> leftNode = node.left;
+        node.left = leftNode.right;
+        leftNode.right = node;
+        updateHeight(node);
+        return leftNode;
+    }
+
+    /**
+     * 左旋
+     *
+     * @param node 失衡结点
+     */
+    private Node<T> leftRotate(Node<T> node) {
+        if (node == null) {
+            return null;
+        }
+
+        if (node.right == null) {
+            return node;
+        }
+
+        Node<T> rightNode = node.right;
+        node.right = rightNode.left;
+        rightNode.left = node;
+        updateHeight(node);
+        return rightNode;
+    }
+
+//    /**
+//     * 判断结点是否平衡
+//     *
+//     * @param node 结点
+//     * @return 判断结果
+//     */
+//    private boolean isBalanced(Node<T> node) {
+//        int leftHeight = getHeight(node.left);
+//        int rightHeight = getHeight(node.right);
+//        return Math.abs(leftHeight - rightHeight) <= 1;
+//    }
+
+    /**
+     * 计算高度
+     *
+     * @return 高度
+     */
+    public int getHeight() {
+        return getHeight(root);
+    }
+
+    /**
+     * 计算结点高度
+     *
+     * @param node 结点
+     * @return 高度
+     */
+    private int getHeight(Node<T> node) {
+        if (node == null) {
+            return 0;
+        }
+        return node.height;
+    }
+
+    private int getHeightDiff(Node<T> node) {
+        if (node == null) {
+            return 0;
+        }
+        int leftHeight = getHeight(node.left);
+        int rightHeight = getHeight(node.right);
+        return leftHeight - rightHeight;
+    }
+
+    /**
+     * 更新结点高度
+     *
+     * @param node 结点
+     */
+    private void updateHeight(Node<T> node) {
+        if (node == null) {
+            return;
+        }
+        node.height = Math.max(getHeight(node.left), getHeight(node.right)) + 1;
     }
 
     /**

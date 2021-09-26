@@ -42,7 +42,7 @@ public class BalancedBinaryTreeTest {
         System.out.println();
 
         // 删除数据
-        int removeNum = nums[5];
+        int removeNum = nums[2];
         binaryTree.remove(removeNum);
         System.out.println("Remove: " + removeNum);
         System.out.println("Search: " + searchNum);
