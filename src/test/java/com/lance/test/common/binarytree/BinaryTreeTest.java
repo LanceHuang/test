@@ -34,7 +34,7 @@ public class BinaryTreeTest {
         System.out.println("Search: " + searchNum);
         System.out.println("Search result: " + binaryTree.contains(searchNum));
         System.out.println("Count: " + binaryTree.getCount());
-        System.out.println("Level: " + binaryTree.getLevel());
+        System.out.println("Height: " + binaryTree.getHeight());
         binaryTree.logTree();
         System.out.println();
 
@@ -45,7 +45,7 @@ public class BinaryTreeTest {
         System.out.println("Search: " + searchNum);
         System.out.println("Search result: " + binaryTree.contains(searchNum));
         System.out.println("Count: " + binaryTree.getCount());
-        System.out.println("Level: " + binaryTree.getLevel());
+        System.out.println("Height: " + binaryTree.getHeight());
         binaryTree.logTree();
     }
 }
