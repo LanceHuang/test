@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 二叉树搜索树
+ * 二叉树
  * <ul>
  *     <li>插入：O(lgn)~O(n)</li>
  *     <li>删除：O(lgn)</li>
