@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 二叉树搜索树
+ * 平衡二叉树
  * <ul>
  *     <li>插入：O(lgn)</li>
  *     <li>删除：O(lgn)</li>
@@ -68,12 +68,12 @@ public class BalancedBinaryTree<T extends Comparable<T>> {
         int diff = getHeightDiff(node);
         int leftDiff = getHeightDiff(node.left);
         int rightDiff = getHeightDiff(node.right);
-        if (diff > 1 && leftDiff > 1) {
+        if (diff > 1 && leftDiff > 0) {
             node = rightRotate(node);
         } else if (diff > 1) {
             node.left = leftRotate(node.left);
             node = rightRotate(node);
-        } else if (diff < -1 && rightDiff > 1) {
+        } else if (diff < -1 && rightDiff > 0) {
             node.right = rightRotate(node.right);
             node = leftRotate(node);
         } else if (diff < -1) {
@@ -211,18 +211,6 @@ public class BalancedBinaryTree<T extends Comparable<T>> {
         updateHeight(node);
         return rightNode;
     }
-
-//    /**
-//     * 判断结点是否平衡
-//     *
-//     * @param node 结点
-//     * @return 判断结果
-//     */
-//    private boolean isBalanced(Node<T> node) {
-//        int leftHeight = getHeight(node.left);
-//        int rightHeight = getHeight(node.right);
-//        return Math.abs(leftHeight - rightHeight) <= 1;
-//    }
 
     /**
      * 计算高度
