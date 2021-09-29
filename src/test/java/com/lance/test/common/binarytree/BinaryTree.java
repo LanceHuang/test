@@ -6,9 +6,9 @@ import lombok.Setter;
 /**
  * 二叉树
  * <ul>
- *     <li>插入：O(lgn)~O(n)</li>
- *     <li>删除：O(lgn)</li>
- *     <li>查询指定数据：O(lgn)~O(n)</li>
+ *     <li>插入：O(logn)~O(n)</li>
+ *     <li>删除：O(logn)</li>
+ *     <li>查询指定数据：O(logn)~O(n)</li>
  *     <li>查询结点数：O(1)</li>
  * </ul>
  *
