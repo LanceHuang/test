@@ -1,25 +1,24 @@
 package com.lance.test.shiro;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.lance.test.junit.Test;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.mgt.DefaultSecurityManager;
-import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.jdbc.JdbcRealm;
-import org.apache.shiro.realm.text.IniRealm;
 import org.apache.shiro.subject.Subject;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.sql.SQLException;
 
 public class JdbcRealmTest {
+
     private JdbcRealm realm;
     private DruidDataSource dataSource;
 
-    @Before
+    @BeforeEach
     public void before() throws SQLException {
         dataSource = new DruidDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/common");
@@ -36,16 +35,15 @@ public class JdbcRealmTest {
         realm.setPermissionsQuery("select permission from t_roles_permission where role_name = ?");
     }
 
-    @After
+    @AfterEach
     public void after() {
         dataSource.close();
     }
 
     @Test
     public void test() {
-        SecurityManager securityManager = new DefaultSecurityManager();
-        ((DefaultSecurityManager) securityManager).setRealm(realm);
-
+        DefaultSecurityManager securityManager = new DefaultSecurityManager();
+        securityManager.setRealm(realm);
         SecurityUtils.setSecurityManager(securityManager);
         Subject subject = SecurityUtils.getSubject();
 
