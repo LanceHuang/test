@@ -1,16 +1,16 @@
 package com.lance.test.disruptor;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.lance.common.tool.ThreadUtils;
 import com.lmax.disruptor.EventFactory;
 import com.lmax.disruptor.EventHandler;
-import com.lmax.disruptor.RingBuffer;
+import com.lmax.disruptor.EventTranslatorOneArg;
 import com.lmax.disruptor.WaitStrategy;
 import com.lmax.disruptor.YieldingWaitStrategy;
 import com.lmax.disruptor.dsl.Disruptor;
 import com.lmax.disruptor.dsl.ProducerType;
+import lombok.Data;
 import org.junit.jupiter.api.Test;
 
-import java.nio.ByteBuffer;
 import java.util.concurrent.ThreadFactory;
 
 /**
@@ -21,37 +21,35 @@ public class DisruptorTest {
 
     @Test
     void test() {
-        // 创建Disruptor
-        EventFactory<LongEvent> eventFactory = new LongEventFactory();
+        // 初始化配置
+        EventFactory<PayloadEvent> eventFactory = PayloadEvent::new;
         int ringBufferSize = 1024;
-        ThreadFactory threadFactory = new ThreadFactoryBuilder().setNameFormat("event-%d").build();
+        ThreadFactory threadFactory = ThreadUtils.nameThreadFactory("event");
         ProducerType producerType = ProducerType.SINGLE;
         WaitStrategy waitStrategy = new YieldingWaitStrategy();
-        Disruptor<LongEvent> disruptor = new Disruptor<>(
+        EventHandler<PayloadEvent> eventHandler = (event, sequence, endOfBatch) -> System.out.println("Handle: " + event.getPayload());
+        EventTranslatorOneArg<PayloadEvent, Object> translator = (event, sequence, arg0) -> event.setPayload(arg0);
+
+        // 启动
+        Disruptor<PayloadEvent> disruptor = new Disruptor<>(
                 eventFactory, ringBufferSize, threadFactory,
                 producerType, waitStrategy
         );
-
-        // 注册消息处理者
-        EventHandler<LongEvent> eventHandler = new LongEventHandler();
         disruptor.handleEventsWith(eventHandler);
-
-        // 启动Disruptor
         disruptor.start();
 
-        // 创建生产者
-        RingBuffer<LongEvent> ringBuffer = disruptor.getRingBuffer();
-        LongEventProducer eventProducer = new LongEventProducer(ringBuffer);
-
         // 生产数据
-        ByteBuffer byteBuffer = ByteBuffer.allocate(8);
-        for (long i = 0; i < 100; i++) {
-            System.out.println(Thread.currentThread() + " produce " + i);
-            byteBuffer.putLong(0, i);
-            eventProducer.onData(byteBuffer);
+        for (int i = 0; i < 108; i++) {
+            disruptor.publishEvent(translator, "data" + i);
         }
 
-        // 关闭Disruptor
+        // 关闭
         disruptor.shutdown();
+    }
+
+    @Data
+    public static class PayloadEvent {
+
+        private Object payload;
     }
 }
