@@ -14,6 +14,7 @@ import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
+import sun.misc.Contended;
 
 import java.util.concurrent.TimeUnit;
 
@@ -32,80 +33,65 @@ import java.util.concurrent.TimeUnit;
 @Measurement(iterations = 5) // 测试5轮
 public class FalseSharingJmhTest {
 
-    /**
-     * 常规padding写法
-     */
-    @State(Scope.Group)
-    public static class DataPad {
-        protected long p1, p2, p3, p4, p5, p6, p7, p8;
-        protected volatile int writeNum;
-        protected long p9, p10, p11, p12, p13, p14, p15, p16;
-        protected volatile int readNum;
-    }
-
     @Benchmark
-    @Group("pad")
-    public void writePad(DataPad d) {
+    @Group("Data")
+    public void writeData(Data d) {
         d.writeNum++;
     }
 
     @Benchmark
-    @Group("pad")
-    public int readPad(DataPad d) {
+    @Group("Data")
+    public int readData(Data d) {
         return d.readNum;
     }
 
-    /**
-     * 普通类
-     */
-    @State(Scope.Group)
-    public static class DataNotPad {
-        protected volatile int writeNum;
-        protected volatile int readNum;
-    }
-
     @Benchmark
-    @Group("nopad")
-    public void writeNoPad(DataNotPad d) {
+    @Group("PaddingData")
+    public void writePaddingData(PaddingData d) {
         d.writeNum++;
     }
 
     @Benchmark
-    @Group("nopad")
-    public int readNoPad(DataNotPad d) {
+    @Group("PaddingData")
+    public int readPaddingData(PaddingData d) {
         return d.readNum;
     }
 
-    public static class BufferRhsPad {
-        protected long p1, p2, p3, p4, p5, p6, p7, p8;
-    }
-
-    public static class BufferField extends BufferRhsPad {
-        protected volatile int writeNum;
-    }
-
-    public static class BufferFieldWithLhs extends BufferField {
-        protected long p9, p10, p11, p12, p13, p14, p15, p16;
-    }
-
-    /**
-     * 继承Padding写法
-     */
-    @State(Scope.Group)
-    public static class BufferData extends BufferFieldWithLhs {
-        protected volatile int readNum;
-    }
-
     @Benchmark
-    @Group("buffer")
-    public void writeBufferDataPad(BufferData d) {
+    @Group("ContendedData")
+    public void writeContendedData(ContendedData d) {
         d.writeNum++;
     }
 
     @Benchmark
-    @Group("buffer")
-    public int readBufferDataPad(BufferData d) {
+    @Group("ContendedData")
+    public int readContendedData(ContendedData d) {
         return d.readNum;
+    }
+
+    @State(Scope.Group)
+    public static class Data {
+        volatile int writeNum;
+        volatile int readNum;
+    }
+
+    @State(Scope.Group)
+    public static class PaddingData {
+        long p1, p2, p3, p4, p5, p6, p7;
+        volatile int writeNum;
+        long p8, p9, p10, p11, p12, p13, p14;
+        volatile int readNum;
+    }
+
+    /**
+     * 负提升
+     */
+    @State(Scope.Group)
+    public static class ContendedData {
+        @Contended
+        volatile int writeNum;
+        @Contended
+        volatile int readNum;
     }
 
     public static void main(String[] args) throws RunnerException {
