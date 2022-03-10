@@ -79,8 +79,12 @@ public class FalseSharingJmhTest {
     public static class PaddingData {
         long p1, p2, p3, p4, p5, p6, p7;
         volatile int writeNum;
-        long p8, p9, p10, p11, p12, p13, p14;
         volatile int readNum;
+
+        // 等价于
+//        volatile int writeNum;
+//        volatile long p1, p2, p3, p4, p5, p6, p7;
+//        volatile int readNum;
     }
 
     /**
