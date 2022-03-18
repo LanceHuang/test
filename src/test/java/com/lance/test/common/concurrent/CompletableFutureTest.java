@@ -16,17 +16,36 @@ import java.util.concurrent.Executors;
 public class CompletableFutureTest {
 
     @Test
-    public void testCompletableFuture() {
-        // 创建执行器
+    public void testCompletableFuture() throws Exception {
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        // 创建任务，并将Future包装成CompletableFuture
         CompletableFuture<String> completableFuture = CompletableFuture.supplyAsync(this::produce, executor);
-        // 处理结果
-        completableFuture.whenComplete((data, exception) -> System.out.println("Data: " + data));
+        completableFuture.thenAccept((data) -> System.out.println("Data: " + data))
+                .thenRun(() -> System.out.println("Finished"));
+        completableFuture.get();
+        executor.shutdown();
     }
 
     private String produce() {
         ThreadUtils.sleep(500L);
         return "Lance";
+    }
+
+    @Test
+    public void testAllOf() throws Exception {
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+        CompletableFuture<Void> f1 = CompletableFuture.runAsync(() -> runTask("task1"), executor);
+        CompletableFuture<Void> f2 = CompletableFuture.runAsync(() -> runTask("task2"), executor);
+        CompletableFuture<Void> f3 = CompletableFuture.runAsync(() -> runTask("task3"), executor);
+
+        // 等待以上3个任务都执行完成
+        CompletableFuture<Void> completableFuture = CompletableFuture.allOf(f1, f2, f3)
+                .thenRun(() -> System.out.println("Finished"));
+        completableFuture.get();
+        executor.shutdown();
+    }
+
+    private void runTask(String taskName) {
+        ThreadUtils.sleep(500L);
+        System.out.println("Run: " + taskName);
     }
 }
