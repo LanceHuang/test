@@ -348,11 +348,11 @@
             </exclusions>
         </dependency>
 
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>2.53.1</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.seleniumhq.selenium</groupId>-->
+<!--            <artifactId>selenium-java</artifactId>-->
+<!--            <version>2.53.1</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.apache.shiro</groupId>
@@ -429,6 +429,12 @@
             <artifactId>jmh-generator-annprocess</artifactId>
             <version>1.19</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.aparapi</groupId>
+            <artifactId>aparapi</artifactId>
+            <version>2.0.0</version>
         </dependency>
     </dependencies>
 </project>
