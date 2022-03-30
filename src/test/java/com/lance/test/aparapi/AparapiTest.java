@@ -33,28 +33,16 @@ public class AparapiTest {
 
     @Test
     void testAparapi() {
-        float[] inA = new float[N];
-        float[] inB = new float[N];
-        float[] result = new float[N];
-
-        Kernel kernel = new Kernel() {
-            @Override
-            public void run() {
-                int i = getGlobalId();
-                for (int j = 0; j < ITERATION; j++) {
-                    result[i] = result[i] + inA[i] + inB[i] + 1;
-                }
-            }
-        };
-
-        // 预热
+        // 预热：预编译代码，将字节码转换成OpenCL码
+        Kernel kernel = new RangeCounter(1, 0);
         kernel.execute(Range.create(1));
+        kernel.dispose();
 
         // 计算
         long t1 = System.currentTimeMillis();
-        Range range = Range.create(N);
-        kernel.execute(range);
-        kernel.dispose();
+        RangeCounter counter = new RangeCounter(N, ITERATION);
+        counter.execute(Range.create(N));
+        counter.dispose();
         long t2 = System.currentTimeMillis();
         System.out.println("Cost in " + (t2 - t1) + "ms");
     }
